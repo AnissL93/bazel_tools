@@ -17,25 +17,25 @@ import os
 import platform
 import lit.llvm
 
-## ================ need modify ================
+# ================ need modify ================
 mlir_custom_tools_dirs = [
-    'cc/tools'
+    '<tool dir>'
 ]
 # the folder contains all test files
-tests_root_dir = 'cc/'
+tests_root_dir = "[root dir]"
 # the suffix of test files, default is ['.td', '.mlir', '.pbtxt']
 # runlit.cfg.py file path
-runlit_cfg_py_path = "cc/runlit.cfg.py"
-## ================ need modify end ================
+runlit_cfg_py_path = tests_root_dir + "/runlit.cfg.py"
+# ================ need modify end ================
 
 # Handle the test srcdir for platforms. On windows, things are weird with bazel.
 if platform.system() == 'Windows':
-  srcdir = os.environ['TEST_SRCDIR']
-  real_test_srcdir = srcdir[:srcdir.find(tests_root_dir)]
-  external_srcdir = os.path.join(real_test_srcdir, 'external')
+    srcdir = os.environ['TEST_SRCDIR']
+    real_test_srcdir = srcdir[:srcdir.find(tests_root_dir)]
+    external_srcdir = os.path.join(real_test_srcdir, 'external')
 else:
-  real_test_srcdir = os.environ['TEST_SRCDIR']
-  external_srcdir = real_test_srcdir
+    real_test_srcdir = os.environ['TEST_SRCDIR']
+    external_srcdir = real_test_srcdir
 
 # Lint for undefined variables is disabled as config is not defined inside this
 # file, instead config is injected by lit.py. The structure is common for lit
@@ -58,8 +58,8 @@ config.mlir_test_dir = os.path.join(real_test_srcdir,
                                     os.environ['TEST_WORKSPACE'], test_dir)
 
 if platform.system() == 'Windows':
-  # Configure this to work with msys2, TF's preferred windows bash.
-  config.lit_tools_dir = '/usr/bin'
+    # Configure this to work with msys2, TF's preferred windows bash.
+    config.lit_tools_dir = '/usr/bin'
 
 lit.llvm.initialize(lit_config, config)
 
